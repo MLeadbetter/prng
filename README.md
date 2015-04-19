@@ -4,7 +4,7 @@ This is a small, simple and fast pseudo-random number generator for C++.
 ## Why use it over the C++11 standards?
 The standards are more verbose, slower and the quality of the random numbers is empirically worse than this library. This library also acts as a class you would need to implement to mock out the rng to work with gmock.
 
-This library will suite 99% of cases, however the standards have support for more distributions than just uniform, which is the only distribution supported here. You may also dislike the relatively unproven nature of the xorshift\* algorithm under the hood used over Mersenne Twister.
+This library will suit 99% of cases, however the standards have support for more distributions than just uniform, which is the only distribution supported here. You may also dislike the relatively unproven nature of the xorshift\* algorithm under the hood used over Mersenne Twister.
 
 ## How to use it
 For ease of use this is a header only library. Simply include the header where needed and:
