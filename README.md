@@ -19,7 +19,7 @@ That's it! You can probably guess how to get a random long, unsigned long, float
 ``` cpp
 std::array<uint64_t, 16> seed = {...};
 PRNG rng(seed);
-rng.setSeed();
+rng.setSeed(seed);
 ```
 
 You can get the internal state with getState() for future use as a seed if needed. If somehow you're still stuck a full list of functions can be obtained with doxygen or by simply scanning through the file, or using your IDE's auto complete.
