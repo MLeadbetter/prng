@@ -94,6 +94,41 @@ public:
      * @param minValue - The lowest value this should return
      * @param maxValue - The highest value this should return
      * @throw cassert ensuring minValue < maxValue
+     * @return a signed char containing a random number
+     */
+    virtual char getRandomChar(const char &minValue, const char &maxValue)
+    {
+        return getRandomIntType(minValue, maxValue);
+    }
+
+
+    /**
+     * @brief Generates a random number between 0 and maxValue (inclusive)
+     * @param maxValue - The highest value this should return
+     * @return an unsigned char containing a random number
+     */
+    virtual unsigned char getRandomUnsignedChar(const unsigned char &maxValue)
+    {
+        return getRandomIntType(maxValue);
+    }
+
+    /**
+     * @brief Generates a random number between minValue and maxValue (inclusive)
+     * @param minValue - The lowest value this should return
+     * @param maxValue - The highest value this should return
+     * @throw cassert ensuring minValue < maxValue
+     * @return an unsigned char containing a random number
+     */
+    virtual unsigned char getRandomUnsignedChar(const unsigned char &minValue, const unsigned char &maxValue)
+    {
+        return getRandomIntType(minValue, maxValue);
+    }
+
+    /**
+     * @brief Generates a random number between minValue and maxValue (inclusive)
+     * @param minValue - The lowest value this should return
+     * @param maxValue - The highest value this should return
+     * @throw cassert ensuring minValue < maxValue
      * @return a signed integer containing a random number
      */
     virtual int getRandomInt(const int &minValue, const int &maxValue)
