@@ -60,11 +60,11 @@ TEST_F(PRNGTest, test_negative_bits_occur)
  * Probability of false negative can be given by binomial distribution.
  * Using Poisson approximation the probability of a false negative per bin is about:  1.0*10^-12
  */
-TEST_F(PRNGTest, test_uniform_results_uint64)
+TEST_F(PRNGTest, test_uniform_results_unsigned_char)
 {
     int bins[5]{0};
     for(unsigned int i = 0; i < 100000; i++) {
-        bins[rng.getRandomUnsignedLongLong(4)]++;
+        bins[rng.getRandomUnsignedChar(4)]++;
     }
     EXPECT_LT(bins[0], 21000);
     EXPECT_GT(bins[0], 19000);
@@ -325,17 +325,17 @@ TEST_F(PRNGTest, test_large_uniform)
  *
  * Chance of false negative: 0
  */
-TEST_F(PRNGTest, test_max_bound_uint64)
+TEST_F(PRNGTest, test_max_bound_unsigned_char)
 {
     for(unsigned int i = 0; i < 100; i++) {
-        EXPECT_LE(rng.getRandomUnsignedLongLong(2), 2);
+        EXPECT_LE(rng.getRandomUnsignedChar(2), 2);
     }
 }
 
-TEST_F(PRNGTest, test_min_bound_uint64)
+TEST_F(PRNGTest, test_min_bound_unsigned_char)
 {
     for(unsigned int i = 0; i < 100; i++) {
-        EXPECT_GE(rng.getRandomUnsignedLongLong(2), 0);
+        EXPECT_GE(rng.getRandomUnsignedChar(2), 0);
     }
 }
 
@@ -378,6 +378,34 @@ TEST_F(PRNGTest, test_min_bound_unsigned_long_long)
 {
     for(unsigned int i = 0; i < 100; i++) {
         EXPECT_GE(rng.getRandomUnsignedLongLong(2), 0);
+    }
+}
+
+TEST_F(PRNGTest, test_max_bound_char)
+{
+    for(unsigned int i = 0; i < 100; i++) {
+        EXPECT_LE(rng.getRandomChar(1, 3), 3);
+    }
+}
+
+TEST_F(PRNGTest, test_min_bound_char)
+{
+    for(unsigned int i = 0; i < 100; i++) {
+        EXPECT_GE(rng.getRandomChar(1, 3), 1);
+    }
+}
+
+TEST_F(PRNGTest, test_max_bound_char_negative)
+{
+    for(unsigned int i = 0; i < 100; i++) {
+        EXPECT_LE(rng.getRandomChar(-3, -1), -1);
+    }
+}
+
+TEST_F(PRNGTest, test_min_bound_char_negative)
+{
+    for(unsigned int i = 0; i < 100; i++) {
+        EXPECT_GE(rng.getRandomChar(-3, -1), -3);
     }
 }
 
@@ -497,6 +525,13 @@ TEST_F(PRNGTest, test_min_bound_int_half_negative)
 {
     for(unsigned int i = 0; i < 100; i++) {
         EXPECT_GE(rng.getRandomInt(-1, 1), -1);
+    }
+}
+
+TEST_F(PRNGTest, test_max_bound_char_half_negative)
+{
+    for(unsigned int i = 0; i < 100; i++) {
+        EXPECT_LE(rng.getRandomChar(-1, 1), 1);
     }
 }
 
