@@ -88,6 +88,24 @@ public:
     }
 
     /**
+     * @brief Generates a random char
+     * @return a char containing a random number
+     */
+    virtual char getRandomChar()
+    {
+        return xorshift1024();
+    }
+
+    /**
+     * @brief Generates a random unsigned char
+     * @return an unsigned char containing a random number
+     */
+    virtual unsigned char getRandomUnsignedChar()
+    {
+        return xorshift1024();
+    }
+
+    /**
      * @brief Generates a random number between minValue and maxValue (inclusive)
      * @param minValue - The lowest value this should return
      * @param maxValue - The highest value this should return
@@ -98,7 +116,6 @@ public:
     {
         return getRandomIntType(minValue, maxValue);
     }
-
 
     /**
      * @brief Generates a random number between 0 and maxValue (inclusive)
@@ -120,6 +137,24 @@ public:
     virtual unsigned char getRandomUnsignedChar(const unsigned char &minValue, const unsigned char &maxValue)
     {
         return getRandomIntType(minValue, maxValue);
+    }
+
+    /**
+     * @brief Generates a random int
+     * @return an int containing a random number
+     */
+    virtual int getRandomInt()
+    {
+        return xorshift1024();
+    }
+
+    /**
+     * @brief Generates a random unsigned int
+     * @return an unsigned int containing a random number
+     */
+    virtual unsigned int getRandomUnsignedInt()
+    {
+        return xorshift1024();
     }
 
     /**
@@ -157,6 +192,24 @@ public:
     }
 
     /**
+     * @brief Generates a random long
+     * @return a long containing a random number
+     */
+    virtual long getRandomLong()
+    {
+        return xorshift1024();
+    }
+
+    /**
+     * @brief Generates a random unsigned long
+     * @return an unsigned long containing a random number
+     */
+    virtual unsigned long getRandomUnsignedLong()
+    {
+        return xorshift1024();
+    }
+
+    /**
      * @brief Generates a random number between minValue and maxValue (inclusive)
      * @param minValue - The lowest value this should return
      * @param maxValue - The highest value this should return
@@ -188,6 +241,24 @@ public:
     virtual unsigned long getRandomUnsignedLong(const unsigned long &minValue, const unsigned long &maxValue)
     {
         return getRandomIntType(minValue, maxValue);
+    }
+
+    /**
+     * @brief Generates a random long long
+     * @return a long long containing a random number
+     */
+    virtual long long getRandomLongLong()
+    {
+        return xorshift1024();
+    }
+
+    /**
+     * @brief Generates a random unsigned long long
+     * @return an unsigned long long containing a random number
+     */
+    virtual unsigned long long getRandomUnsignedLongLong()
+    {
+        return xorshift1024();
     }
 
     /**
