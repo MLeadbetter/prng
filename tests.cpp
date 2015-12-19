@@ -15,10 +15,10 @@ class PRNGTest : public ::testing::Test {
     virtual void SetUp() {
         // A previously generated random seed is used to ensure consistent results
         static const array<uint64_t, 16> seed
-                = {0x374be26ee31f1e78, 0xd4eef394f72f149b, 0x91cb5a7001068c8b, 0x718ef6c2be5efbe7,
-                   0xbb0dd94396008d70, 0x4f0996d1cd72d2d8, 0x2419b74e0b39e9b3, 0x0da693cf50e1396e,
-                   0xcaec0e7f4cae7ffa, 0x350b63e4717957c6, 0xbe8460185de680dc, 0xff18c7a0efbcec26,
-                   0xff1a72bb0ca9ac7f, 0x3b4818e046188158, 0xcac3e320230a44ba, 0xcaf9544740fbd288};
+                = {{0x374be26ee31f1e78, 0xd4eef394f72f149b, 0x91cb5a7001068c8b, 0x718ef6c2be5efbe7,
+                    0xbb0dd94396008d70, 0x4f0996d1cd72d2d8, 0x2419b74e0b39e9b3, 0x0da693cf50e1396e,
+                    0xcaec0e7f4cae7ffa, 0x350b63e4717957c6, 0xbe8460185de680dc, 0xff18c7a0efbcec26,
+                    0xff1a72bb0ca9ac7f, 0x3b4818e046188158, 0xcac3e320230a44ba, 0xcaf9544740fbd288}};
         rng.setSeed(seed);
     }
 

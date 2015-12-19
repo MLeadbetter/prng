@@ -407,7 +407,7 @@ private:
     template <class T>
     T getRandomFloatType(const T &minValue, const T &maxValue)
     {
-        T range = abs(maxValue - minValue);
+        T range = std::abs(maxValue - minValue);
         uint64_t rand = xorshift1024();
         return (T)rand * range / std::numeric_limits<uint64_t>::max() + minValue;
     }

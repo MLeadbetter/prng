@@ -2,7 +2,7 @@ project(PRNG)
 cmake_minimum_required(VERSION 3.0)
 
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++11")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -std=c++11")
 
 enable_testing()
 find_package(GTest REQUIRED)
