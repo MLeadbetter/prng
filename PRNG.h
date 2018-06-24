@@ -38,11 +38,11 @@ public:
         for(uint64_t &s : state)
         {
             // Unfortunately random_device returns unsigned ints rather than uint64_ts
-            if(sizeof(unsigned int)*8  >= 64)
+            if(std::numeric_limits<unsigned int>::digits >= 64)
             {
                 s = rd();
             }
-            else if(sizeof(unsigned int)*8 >= 32) {
+            else if(std::numeric_limits<unsigned int>::digits >= 32) {
                 s = rd() & 0xffffffff;
                 s |= (uint64_t)rd() << 32;
             }
@@ -385,53 +385,12 @@ public:
         return getRandomFloatType(minValue, maxValue);
     }
 
-private:
-    std::array<uint64_t, 16> state;
-    int position;
-
-    template <class T>
-    T getRandomIntType(const T &minValue, const T &maxValue)
-    {
-        assert(minValue < maxValue);
-        uint64_t range = maxValue - minValue;
-        return getRandom_uint64(range) + minValue;
-    }
-
-    template <class T>
-    T getRandomIntType(const T &maxValue)
-    {
-        assert(maxValue <= std::numeric_limits<uint64_t>::max());
-        return getRandom_uint64(maxValue);
-    }
-
-    template <class T>
-    T getRandomFloatType(const T &minValue, const T &maxValue)
-    {
-        T range = std::abs(maxValue - minValue);
-        uint64_t rand = xorshift1024();
-        return (T)rand * range / std::numeric_limits<uint64_t>::max() + minValue;
-    }
-
-    template <class T>
-    T getRandomFloatType(const T &maxValue)
-    {
-        uint64_t rand = xorshift1024();
-        return (T)rand * maxValue / std::numeric_limits<uint64_t>::max();
-    }
-
-    template <class T>
-    T getRandomFloatType()
-    {
-        uint64_t rand = xorshift1024();
-        return (T)rand / std::numeric_limits<uint64_t>::max();
-    }
-
     /**
      * @brief Generates a random number between 0 and maxValue (inclusive)
      * @param maxValue - The highest value this should return
      * @return a uint64_t containing a random number
      */
-    uint64_t getRandom_uint64(const uint64_t &maxValue)
+    uint64_t getRandomUint64(const uint64_t &maxValue)
     {
         assert(maxValue != 0);
         int leadingZeros = countLeadingZeros64(maxValue);
@@ -445,7 +404,49 @@ private:
         return randomInt;
     }
 
-    uint64_t xorshift1024(void)
+private:
+    std::array<uint64_t, 16> state;
+    int position;
+
+    template <class T>
+    T getRandomIntType(const T &minValue, const T &maxValue)
+    {
+        assert(minValue < maxValue);
+        uint64_t range = maxValue - minValue;
+        return getRandomUint64(range) + minValue;
+    }
+
+    template <class T>
+    T getRandomIntType(const T &maxValue)
+    {
+        assert(maxValue <= std::numeric_limits<uint64_t>::max());
+        return getRandomUint64(maxValue);
+    }
+
+    template <class T>
+    T getRandomFloatType(const T &minValue, const T &maxValue)
+    {
+        T range = std::abs(maxValue - minValue);
+        return getRandomFloatType<T>(range) + minValue;
+    }
+
+    template <class T>
+    T getRandomFloatType(const T &maxValue)
+    {
+        return getRandomFloatType<T>() * maxValue;
+    }
+
+    template <class T>
+    T getRandomFloatType()
+    {
+        constexpr T epsilon = std::numeric_limits<T>::epsilon();
+        constexpr int digitsToKeep = std::numeric_limits<T>::digits-1;
+        constexpr int digitsToLose = std::numeric_limits<uint64_t>::digits - digitsToKeep;
+        T rand = (xorshift1024() >> digitsToLose) * epsilon;
+        return rand;
+    }
+
+    uint64_t xorshift1024()
     {
         uint64_t state0 = state[position];
         position = (position + 1) % 16;
@@ -460,7 +461,7 @@ private:
     int countLeadingZeros64(const uint64_t &toCount)
     {
     #ifdef __GNUC__
-        return __builtin_clzll(toCount) - (sizeof(unsigned long long)*8 - 64);
+        return __builtin_clzll(toCount) - (std::numeric_limits<unsigned long long>::digits - 64);
     #elif defined(_MSC_VER)
         return __lzcnt(toCount);
     #else
