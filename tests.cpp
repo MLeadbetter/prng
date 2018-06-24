@@ -1,3 +1,22 @@
+/*
+    Copyright 2015 Matthew Leadbetter
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+
+    If you have any queries I can be contacted by e-mail: matthew@mleadbetter.com
+*/
+
 #include "gtest/gtest.h"
 
 #include<PRNG.h>
@@ -580,7 +599,7 @@ TEST_F(PRNGTest, test_max_bound_long_long_half_negative)
 TEST_F(PRNGTest, test_max_bound_float)
 {
     for(unsigned int i = 0; i < 100; i++) {
-        EXPECT_LE(rng.getRandomFloat(2), 2);
+        EXPECT_LT(rng.getRandomFloat(2), 2);
     }
 }
 
@@ -594,7 +613,7 @@ TEST_F(PRNGTest, test_min_bound_float)
 TEST_F(PRNGTest, test_max_bound_double)
 {
     for(unsigned int i = 0; i < 100; i++) {
-        EXPECT_LE(rng.getRandomDouble(2), 2);
+        EXPECT_LT(rng.getRandomDouble(2), 2);
     }
 }
 
@@ -608,7 +627,7 @@ TEST_F(PRNGTest, test_min_bound_double)
 TEST_F(PRNGTest, test_max_bound_long_double)
 {
     for(unsigned int i = 0; i < 100; i++) {
-        EXPECT_LE(rng.getRandomLongDouble(2), 2);
+        EXPECT_LT(rng.getRandomLongDouble(2), 2);
     }
 }
 
@@ -622,7 +641,7 @@ TEST_F(PRNGTest, test_min_bound_long_double)
 TEST_F(PRNGTest, test_max_bound_float_2)
 {
     for(unsigned int i = 0; i < 100; i++) {
-        EXPECT_LE(rng.getRandomFloat(1, 3), 3);
+        EXPECT_LT(rng.getRandomFloat(1, 3), 3);
     }
 }
 
@@ -636,7 +655,7 @@ TEST_F(PRNGTest, test_min_bound_float_2)
 TEST_F(PRNGTest, test_max_bound_double_2)
 {
     for(unsigned int i = 0; i < 100; i++) {
-        EXPECT_LE(rng.getRandomDouble(1, 3), 3);
+        EXPECT_LT(rng.getRandomDouble(1, 3), 3);
     }
 }
 
@@ -650,7 +669,7 @@ TEST_F(PRNGTest, test_min_bound_double_2)
 TEST_F(PRNGTest, test_max_bound_long_double_2)
 {
     for(unsigned int i = 0; i < 100; i++) {
-        EXPECT_LE(rng.getRandomLongDouble(1, 3), 3);
+        EXPECT_LT(rng.getRandomLongDouble(1, 3), 3);
     }
 }
 
