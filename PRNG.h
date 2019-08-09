@@ -20,6 +20,12 @@
 #ifndef PRNG_H
 #define PRNG_H
 
+#ifdef TEST
+#define TEST_VIRTUAL virtual
+#else
+#define TEST_VIRTUAL
+#endif
+
 #include <mutex>
 #include <random>
 #include <array>
@@ -44,17 +50,19 @@ public:
             }
             else if(std::numeric_limits<unsigned int>::digits >= 32) {
                 s = rd() & 0xffffffff;
-                s |= (uint64_t)rd() << 32;
+                s |= static_cast<uint64_t>(rd()) << 32;
             }
             else // Not sure what hardware/compiler you're coding for but I guess it's in the standards
             {
                 s = rd() & 0xffff;
-                s |= ((uint64_t)rd() << 16) & 0xffffffff;
-                s |= ((uint64_t)rd() << 32) & 0xffffffffffff;
-                s |= ((uint64_t)rd() << 48);
+                s |= (static_cast<uint64_t>(rd()) << 16) & 0xffffffff;
+                s |= (static_cast<uint64_t>(rd()) << 32) & 0xffffffffffff;
+                s |= (static_cast<uint64_t>(rd()) << 48);
             }
         }
     }
+
+    TEST_VIRTUAL ~PRNG() {}
 
     /**
      * @brief Constructs a new PRNG with a set seed
@@ -69,7 +77,7 @@ public:
      *
      * @param seed - the value to change the internal state to
      */
-    virtual void setSeed(const std::array<uint64_t, 16> &seed)
+    TEST_VIRTUAL void setSeed(const std::array<uint64_t, 16> &seed)
     {
         state = seed;
     }
@@ -82,7 +90,7 @@ public:
      *
      * @param seed - the value to change the internal state to
      */
-    virtual const std::array<uint64_t, 16> &getState() const
+    TEST_VIRTUAL const std::array<uint64_t, 16> &getState() const
     {
         return state;
     }
@@ -91,18 +99,18 @@ public:
      * @brief Generates a random char
      * @return a char containing a random number
      */
-    virtual char getRandomChar()
+    TEST_VIRTUAL char getRandomChar()
     {
-        return xorshift1024();
+        return static_cast<char>(xorshift1024());
     }
 
     /**
      * @brief Generates a random unsigned char
      * @return an unsigned char containing a random number
      */
-    virtual unsigned char getRandomUnsignedChar()
+    TEST_VIRTUAL unsigned char getRandomUnsignedChar()
     {
-        return xorshift1024();
+        return static_cast<unsigned char>(xorshift1024());
     }
 
     /**
@@ -112,7 +120,7 @@ public:
      * @throw cassert ensuring minValue < maxValue
      * @return a signed char containing a random number
      */
-    virtual char getRandomChar(const char &minValue, const char &maxValue)
+    TEST_VIRTUAL char getRandomChar(const char &minValue, const char &maxValue)
     {
         return getRandomIntType(minValue, maxValue);
     }
@@ -122,7 +130,7 @@ public:
      * @param maxValue - The highest value this should return
      * @return an unsigned char containing a random number
      */
-    virtual unsigned char getRandomUnsignedChar(const unsigned char &maxValue)
+    TEST_VIRTUAL unsigned char getRandomUnsignedChar(const unsigned char &maxValue)
     {
         return getRandomIntType(maxValue);
     }
@@ -134,7 +142,7 @@ public:
      * @throw cassert ensuring minValue < maxValue
      * @return an unsigned char containing a random number
      */
-    virtual unsigned char getRandomUnsignedChar(const unsigned char &minValue, const unsigned char &maxValue)
+    TEST_VIRTUAL unsigned char getRandomUnsignedChar(const unsigned char &minValue, const unsigned char &maxValue)
     {
         return getRandomIntType(minValue, maxValue);
     }
@@ -143,18 +151,18 @@ public:
      * @brief Generates a random int
      * @return an int containing a random number
      */
-    virtual int getRandomInt()
+    TEST_VIRTUAL int getRandomInt()
     {
-        return xorshift1024();
+        return static_cast<int>(xorshift1024());
     }
 
     /**
      * @brief Generates a random unsigned int
      * @return an unsigned int containing a random number
      */
-    virtual unsigned int getRandomUnsignedInt()
+    TEST_VIRTUAL unsigned int getRandomUnsignedInt()
     {
-        return xorshift1024();
+        return static_cast<unsigned int>(xorshift1024());
     }
 
     /**
@@ -164,7 +172,7 @@ public:
      * @throw cassert ensuring minValue < maxValue
      * @return a signed integer containing a random number
      */
-    virtual int getRandomInt(const int &minValue, const int &maxValue)
+    TEST_VIRTUAL int getRandomInt(const int &minValue, const int &maxValue)
     {
         return getRandomIntType(minValue, maxValue);
     }
@@ -174,7 +182,7 @@ public:
      * @param maxValue - The highest value this should return
      * @return an unsigned integer containing a random number
      */
-    virtual unsigned int getRandomUnsignedInt(const unsigned int &maxValue)
+    TEST_VIRTUAL unsigned int getRandomUnsignedInt(const unsigned int &maxValue)
     {
         return getRandomIntType(maxValue);
     }
@@ -186,7 +194,7 @@ public:
      * @throw cassert ensuring minValue < maxValue
      * @return an unsigned integer containing a random number
      */
-    virtual unsigned int getRandomUnsignedInt(const unsigned int &minValue, const unsigned int &maxValue)
+    TEST_VIRTUAL unsigned int getRandomUnsignedInt(const unsigned int &minValue, const unsigned int &maxValue)
     {
         return getRandomIntType(minValue, maxValue);
     }
@@ -195,18 +203,18 @@ public:
      * @brief Generates a random long
      * @return a long containing a random number
      */
-    virtual long getRandomLong()
+    TEST_VIRTUAL long getRandomLong()
     {
-        return xorshift1024();
+        return static_cast<long>(xorshift1024());
     }
 
     /**
      * @brief Generates a random unsigned long
      * @return an unsigned long containing a random number
      */
-    virtual unsigned long getRandomUnsignedLong()
+    TEST_VIRTUAL unsigned long getRandomUnsignedLong()
     {
-        return xorshift1024();
+        return static_cast<unsigned long>(xorshift1024());
     }
 
     /**
@@ -216,7 +224,7 @@ public:
      * @throw cassert ensuring minValue < maxValue
      * @return a signed long containing a random number
      */
-    virtual long getRandomLong(const long &minValue, const long &maxValue)
+    TEST_VIRTUAL long getRandomLong(const long &minValue, const long &maxValue)
     {
         return getRandomIntType(minValue, maxValue);
     }
@@ -226,7 +234,7 @@ public:
      * @param maxValue - The highest value this should return
      * @return an unsigned long containing a random number
      */
-    virtual unsigned long getRandomUnsignedLong(const unsigned long &maxValue)
+    TEST_VIRTUAL unsigned long getRandomUnsignedLong(const unsigned long &maxValue)
     {
         return getRandomIntType(maxValue);
     }
@@ -238,7 +246,7 @@ public:
      * @throw cassert ensuring minValue < maxValue
      * @return an unsigned long containing a random number
      */
-    virtual unsigned long getRandomUnsignedLong(const unsigned long &minValue, const unsigned long &maxValue)
+    TEST_VIRTUAL unsigned long getRandomUnsignedLong(const unsigned long &minValue, const unsigned long &maxValue)
     {
         return getRandomIntType(minValue, maxValue);
     }
@@ -247,18 +255,18 @@ public:
      * @brief Generates a random long long
      * @return a long long containing a random number
      */
-    virtual long long getRandomLongLong()
+    TEST_VIRTUAL long long getRandomLongLong()
     {
-        return xorshift1024();
+        return static_cast<long long>(xorshift1024());
     }
 
     /**
      * @brief Generates a random unsigned long long
      * @return an unsigned long long containing a random number
      */
-    virtual unsigned long long getRandomUnsignedLongLong()
+    TEST_VIRTUAL unsigned long long getRandomUnsignedLongLong()
     {
-        return xorshift1024();
+        return static_cast<unsigned long long>(xorshift1024());
     }
 
     /**
@@ -268,7 +276,7 @@ public:
      * @throw cassert ensuring minValue < maxValue
      * @return a signed long long containing a random number
      */
-    virtual long long getRandomLongLong(const long long &minValue, const long long &maxValue)
+    TEST_VIRTUAL long long getRandomLongLong(const long long &minValue, const long long &maxValue)
     {
         return getRandomIntType(minValue, maxValue);
     }
@@ -278,7 +286,7 @@ public:
      * @param maxValue - The highest value this should return
      * @return an unsigned long long containing a random number
      */
-    virtual unsigned long long getRandomUnsignedLongLong(const unsigned long long &maxValue)
+    TEST_VIRTUAL unsigned long long getRandomUnsignedLongLong(const unsigned long long &maxValue)
     {
         return getRandomIntType(maxValue);
     }
@@ -290,7 +298,7 @@ public:
      * @throw cassert ensuring minValue < maxValue
      * @return an unsigned long long containing a random number
      */
-    virtual unsigned long long getRandomUnsignedLongLong(const unsigned long long &minValue, const unsigned long long &maxValue)
+    TEST_VIRTUAL unsigned long long getRandomUnsignedLongLong(const unsigned long long &minValue, const unsigned long long &maxValue)
     {
         return getRandomIntType(minValue, maxValue);
     }
@@ -299,7 +307,7 @@ public:
      * @brief Generates a random number between 0 and 1
      * @return a float containing a random number
      */
-    virtual float getRandomFloat()
+    TEST_VIRTUAL float getRandomFloat()
     {
         return getRandomFloatType<float>();
     }
@@ -309,7 +317,7 @@ public:
      * @param maxValue - The highest value this should return
      * @return a float containing a random number
      */
-    virtual float getRandomFloat(float maxValue)
+    TEST_VIRTUAL float getRandomFloat(float maxValue)
     {
         return getRandomFloatType(maxValue);
     }
@@ -320,7 +328,7 @@ public:
      * @param maxValue - The highest value this should return
      * @return a float containing a random number
      */
-    virtual float getRandomFloat(float minValue, float maxValue)
+    TEST_VIRTUAL float getRandomFloat(float minValue, float maxValue)
     {
         return getRandomFloatType(minValue, maxValue);
     }
@@ -329,7 +337,7 @@ public:
      * @brief Generates a random number between 0 and 1
      * @return a double containing a random number
      */
-    virtual double getRandomDouble()
+    TEST_VIRTUAL double getRandomDouble()
     {
         return getRandomFloatType<double>();
     }
@@ -339,7 +347,7 @@ public:
      * @param maxValue - The highest value this should return
      * @return a double containing a random number
      */
-    virtual double getRandomDouble(double maxValue)
+    TEST_VIRTUAL double getRandomDouble(double maxValue)
     {
         return getRandomFloatType(maxValue);
     }
@@ -350,7 +358,7 @@ public:
      * @param maxValue - The highest value this should return
      * @return a double containing a random number
      */
-    virtual double getRandomDouble(double minValue, double maxValue)
+    TEST_VIRTUAL double getRandomDouble(double minValue, double maxValue)
     {
         return getRandomFloatType(minValue, maxValue);
     }
@@ -359,7 +367,7 @@ public:
      * @brief Generates a random number between 0 and 1
      * @return a long double containing a random number
      */
-    virtual long double getRandomLongDouble()
+    TEST_VIRTUAL long double getRandomLongDouble()
     {
         return getRandomFloatType<long double>();
     }
@@ -369,7 +377,7 @@ public:
      * @param maxValue - The highest value this should return
      * @return a long double containing a random number
      */
-    virtual long double getRandomLongDouble(long double maxValue)
+    TEST_VIRTUAL long double getRandomLongDouble(long double maxValue)
     {
         return getRandomFloatType(maxValue);
     }
@@ -380,9 +388,18 @@ public:
      * @param maxValue - The highest value this should return
      * @return a long double containing a random number
      */
-    virtual long double getRandomLongDouble(long double minValue, long double maxValue)
+    TEST_VIRTUAL long double getRandomLongDouble(long double minValue, long double maxValue)
     {
         return getRandomFloatType(minValue, maxValue);
+    }
+
+    /**
+     * @brief Generates a random uint64_t
+     * @return a uint64_t containing a random number
+     */
+    TEST_VIRTUAL uint64_t getRandomUint64()
+    {
+        return xorshift1024();
     }
 
     /**
@@ -390,7 +407,7 @@ public:
      * @param maxValue - The highest value this should return
      * @return a uint64_t containing a random number
      */
-    uint64_t getRandomUint64(const uint64_t &maxValue)
+    TEST_VIRTUAL uint64_t getRandomUint64(const uint64_t &maxValue)
     {
         assert(maxValue != 0);
         int leadingZeros = countLeadingZeros64(maxValue);
@@ -406,21 +423,22 @@ public:
 
 private:
     std::array<uint64_t, 16> state;
-    int position;
+    unsigned long position;
 
     template <class T>
     T getRandomIntType(const T &minValue, const T &maxValue)
     {
         assert(minValue < maxValue);
-        uint64_t range = maxValue - minValue;
-        return getRandomUint64(range) + minValue;
+        uint64_t range = static_cast<uint64_t>(maxValue - minValue);
+        T rand = static_cast<T>(getRandomUint64(range));
+        return rand + minValue;
     }
 
     template <class T>
     T getRandomIntType(const T &maxValue)
     {
         assert(maxValue <= std::numeric_limits<uint64_t>::max());
-        return getRandomUint64(maxValue);
+        return static_cast<T>(getRandomUint64(maxValue));
     }
 
     template <class T>
@@ -491,4 +509,5 @@ private:
     void operator=(PRNG const&) = delete;
 };
 
+#undef TEST_VIRTUAL
 #endif // PRNG_H
