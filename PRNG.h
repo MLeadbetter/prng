@@ -506,7 +506,6 @@ private:
 
     // You really shouldn't copy this class.
     PRNG(PRNG const&) = delete;
-    void operator=(PRNG const&) = delete;
 };
 
 #undef TEST_VIRTUAL
