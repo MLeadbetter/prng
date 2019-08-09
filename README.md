@@ -30,7 +30,7 @@ The PRNG object is not thread safe, however seeding is. You should provide each 
 It utilises the xorshift\* algorithm. You can find more information about why it's designed the way it is on my [blog](http://www.mleadbetter.com).
 
 ## Testing
-To compile and run the tests you will need gtest installed. Once that is done you can run the tests from the project folder with:
+You can run the tests from the project folder with:
 
 ``` bash
 mkdir build
@@ -43,4 +43,4 @@ make
 The test suite only tests for implementation details, it makes no attempt to comprehensively test the PRNG engine. Other people have already done [that](http://xorshift.di.unimi.it/).
 
 ## Virtual at test time
-So long as you're using gtest in the recommended way, the TEST environment variable should be defined. This will enable the class to be mocked. For actual compilation none of the member functions are virtual.
+For performance reasons the functions are only made virtual at test time to allow for mocks. To do this the TEST macro should be defined. If the PRNG include is below the gtest include (as is common convention) you won't need to set up any additional compilation flags.
